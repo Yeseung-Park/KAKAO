@@ -31,8 +31,8 @@ def solution(friends, gifts):
 
     for i in range(len(friends)):
         for j in range(len(friends)):
-            gift_give = friends.index(i)
-            gift_get = friends.index(j)
+            gift_give = friends[i]
+            gift_get = friends[j]
             if i < j:
                 # 우선 선물 주고받은 횟수 비교
                 if gift_trade[i][j] > gift_trade[j][i]:    # i가 더 많이 준 것
@@ -40,11 +40,15 @@ def solution(friends, gifts):
                 elif gift_trade[i][j] < gift_trade[j][i]:    # j가 더 많이 준 것
                     next_month_gift[gift_get] += 1
                 else:    # 같을 경우
-                    if gift_factor[gift_give] > gift_factor[gift_get]:
+                    if gift_factor[gift_give] > gift_factor[gift_get]:    # 선물 지수를 비교해서 크면 선물 받기
+                        next_month_gift[gift_give] += 1
+                    elif gift_factor[gift_give] < gift_factor[gift_get]:
+                        next_month_gift[gift_get] += 1
+                    else:    # 다 같을 경우에는 그냥 패스
+                        pass
+
+    answer = max(next_month_gift.values())
+    return answer
 
 
-    print(gift_trade)
-    print(gift_factor)
-
-
-solution(friends, gifts)
+print(solution(friends, gifts))
